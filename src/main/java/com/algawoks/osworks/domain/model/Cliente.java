@@ -1,11 +1,62 @@
 package com.algawoks.osworks.domain.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
+@Entity
 public class Cliente {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	/* Nas colunas email e telefone não foi necessario setar o @Column 
+	 * pois o nome da variavel é o mesmo do campo na tabela
+	 * Agora no campo telefone foi necessario, porque na tabela esta fone e a variavel esta telefone	  	
+	*/
+	@NotBlank  // validar se não é null, não é vazio e nem somente com espaços
+	@Size(max = 60)
 	private String nome;
+	
+	@NotBlank
+	@Size(max = 255)
+	@Email // valida o formato do email
 	private String email;
+	
+	@NotBlank
+	@Size(max = 20) // tamanho maximo de 20 caracteres
+	@Column(name = "fone")
 	private String telefone;
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		return result;
+	}
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Cliente other = (Cliente) obj;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		return true;
+	}
 	
 	
 	public Long getId() {
